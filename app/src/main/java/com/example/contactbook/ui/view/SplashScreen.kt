@@ -7,7 +7,6 @@ import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
-import com.example.contactbook.MainActivity
 import com.example.contactbook.R
 import com.example.contactbook.databinding.ActivitySplashScreenBinding
 
