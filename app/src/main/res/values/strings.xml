@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ContactBook</string>
+    <string name="splash_name">Contacts by Eduardo</string>
+    <string name="version_name">Version 1.0</string>
+</resources>
