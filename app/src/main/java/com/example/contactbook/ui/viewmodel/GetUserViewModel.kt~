@@ -25,11 +25,9 @@ class GetUserViewModel @Inject constructor(private var getAllUserUserCase: GetAl
         get() = _isLoading
 
     fun getAllUser() {
-        _isLoading.postValue(true)
         viewModelScope.launch {
             when (val response = getAllUserUserCase.invoke()) {
                 is NetworkState.Success -> {
-                    _isLoading.postValue(false)
                     _getUser.postValue(response.data!!)
                 }
                 is NetworkState.Error -> {
