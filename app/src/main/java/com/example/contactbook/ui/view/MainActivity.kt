@@ -25,12 +25,12 @@ class MainActivity : AppCompatActivity() {
         getUserViewModel.getAllUser()
         getUserViewModel.getUser.observe(this, Observer {users ->
             for (i in users!!.iterator()){
-                Glide.with(this).load(i.avatar).into(binding.imageView)
+               // Glide.with(this).load(i.avatar).into(binding.imageView)
                 binding.textView.text = i.firstName.toString()
                 binding.textView2.text = i.lastName.toString()
                 binding.textView3.text = i.email.toString()
                 binding.textView4.text = i.password.toString()
-                binding.textView5.text = i.creditCard.toString()
+                binding.textView5.text = i.creditCard!!.ccNumber.toString()
                 Log.i(TAG,"UserName: ${i.username} \t Name: ${i.firstName} \t lastName: ${i.lastName} \t Email: ${i.email} \t Password: ${i.password} \t Credit: ${i.creditCard!!.ccNumber}")
 
 
@@ -38,6 +38,9 @@ class MainActivity : AppCompatActivity() {
         })
         getUserViewModel.isLoading.observe(this, Observer {
             binding.progressDialog.isVisible = it
+        })
+        getUserViewModel.errorMessage.observe(this, Observer {
+            Log.e(TAG,it.toString())
         })
     }
 }

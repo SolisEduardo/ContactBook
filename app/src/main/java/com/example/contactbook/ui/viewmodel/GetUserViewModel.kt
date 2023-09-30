@@ -8,6 +8,7 @@ import com.example.contactbook.data.model.UserModelItem
 import com.example.contactbook.data.network.NetworkState
 import com.example.contactbook.domain.GetAllUserUserCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,6 +25,12 @@ class GetUserViewModel @Inject constructor(private var getAllUserUserCase: GetAl
     val isLoading: LiveData<Boolean>
         get() = _isLoading
 
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String>
+        get() = _errorMessage
+
+    var job: Job? = null
+
     fun getAllUser() {
         _isLoading.postValue(true)
         viewModelScope.launch {
@@ -33,9 +40,8 @@ class GetUserViewModel @Inject constructor(private var getAllUserUserCase: GetAl
                     _getUser.postValue(response.data!!)
                 }
                 is NetworkState.Error -> {
-                    if (response.response.code() == 401) {
-                    } else {
-                    }
+                        _isLoading.postValue(true)
+                        _errorMessage.postValue(response.response.code().toString())
                 }
 
             }
@@ -44,5 +50,13 @@ class GetUserViewModel @Inject constructor(private var getAllUserUserCase: GetAl
         if (result.isNotEmpty()) {
             _getUser.postValue(result)
         }*/
+    }
+    private fun onError(message: String) {
+        _errorMessage.value = message
+        _isLoading.value = false
+    }
+    override fun onCleared() {
+        super.onCleared()
+        job?.cancel()
     }
 }
