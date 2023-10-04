@@ -36,7 +36,6 @@ class SplashScreen : AppCompatActivity() {
             finish()
         }, SPLASH_SCREEN)
 
-
     }
 
     companion object {

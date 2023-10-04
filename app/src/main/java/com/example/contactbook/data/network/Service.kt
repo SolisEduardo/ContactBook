@@ -10,7 +10,7 @@ import javax.inject.Inject
 class Service @Inject constructor(private val api: ApiService) {
     private val TAG: String = Service::class.java.simpleName
     suspend fun getUser(): NetworkState<List<UserModelItem>> {
-        val response = api.getAllUsers(2, true)
+        val response = api.getAllUsers(15, true)
         return if (response.isSuccessful) {
             Log.i(TAG, "${response.isSuccessful}")
             val responseBody = response.body()
