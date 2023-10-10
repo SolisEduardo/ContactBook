@@ -37,8 +37,8 @@ data class UserModelItem(
 	@field:SerializedName("password")
 	val password: String? = null,
 
-	@field:SerializedName("credit_card")
-	val creditCard: CreditCard? = null,
+	/*@field:SerializedName("credit_card")
+	val creditCard: CreditCard? = null,*/
 
 	@field:SerializedName("social_insurance_number")
 	val socialInsuranceNumber: String? = null,

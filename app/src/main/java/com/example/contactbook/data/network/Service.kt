@@ -9,25 +9,12 @@ import javax.inject.Inject
 
 class Service @Inject constructor(private val api: ApiService) {
     private val TAG: String = Service::class.java.simpleName
-    suspend fun getUser(): NetworkState<List<UserModelItem>> {
+    suspend fun getUser(): List<UserModelItem> {
         val response = api.getAllUsers(15, true)
-        return if (response.isSuccessful) {
-            Log.i(TAG, "${response.isSuccessful}")
-            val responseBody = response.body()
-            if (responseBody != null) {
-                NetworkState.Success(responseBody)
-            } else {
-                Log.i(TAG, "$response")
-                NetworkState.Error(response)
-            }
-        } else {
-            Log.i(TAG, "$response")
-            NetworkState.Error(response)
-        }
 
-        /*return withContext(Dispatchers.IO){
-            val response = retrofit.create(ApiService::class.java).getAllUsers(2,true)
+
+       return withContext(Dispatchers.IO){
             response.body() ?: emptyList()
-        }*/
+        }
     }
 }

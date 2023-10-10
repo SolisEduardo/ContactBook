@@ -1,5 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".ui.view.MainActivity">
+
+    <!-- EditText en la parte superior -->
+    <EditText
+        android:id="@+id/txtSearch"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ingrese texto aquí" />
+
+    <!-- FrameLayout para superponer el ProgressBar -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/txtSearch">
+
+        <!-- RecyclerView debajo del EditText -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_person"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/card_presentation"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="1"/>
+
+        <!-- ProgressBar en el centro -->
+        <ProgressBar
+            android:id="@+id/progressDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+</RelativeLayout>
+ <!-- <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,6 +57,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:indeterminateTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"/>
+    <EditText
+        android:id="@+id/txtSearch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_person"
         android:layout_width="match_parent"
@@ -21,4 +72,5 @@
         tools:listitem="@layout/card_presentation"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="1"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout> -->

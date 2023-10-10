@@ -6,9 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelStore
-import com.bumptech.glide.Glide
 import com.example.contactbook.adapters.PersonAdapter
 import com.example.contactbook.databinding.ActivityMainBinding
 import com.example.contactbook.ui.viewmodel.GetUserViewModel
@@ -25,14 +24,31 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         getUserViewModel.getAllUser()
+        binding.txtSearch.addTextChangedListener {filter->
+            getUserViewModel.getUser.observe(this, Observer { item->
+               val items = item.filter {
+                    it.firstName!!.lowercase().contains(filter.toString().lowercase())
+                }
+                adapterPerson.updateRecycler(items)
+            })
+        }
+
         binding.recyclerPerson.adapter = adapterPerson
-        getUserViewModel.getUser.observe(this, Observer { users ->
+
+        getUserViewModel.getUser.observe(this, Observer {
+            it.forEach{ items ->
+                Log.i(TAG,items.toString())
+            }
+            adapterPerson.setData(it)
+        })
+       /* getUserViewModel.getUser.observe(this, Observer { users ->
             for (i in users!!.iterator()){
                // Glide.with(this).load(i.avatar).into(binding.imageView)
-                Log.i(TAG,"UserName: ${i.username} \t Name: ${i.firstName} \t lastName: ${i.lastName} \t Email: ${i.email} \t Password: ${i.password} \t Credit: ${i.creditCard!!.ccNumber}")
+                Log.i(TAG,"UserName: ${i.username} \t Name: ${i.firstName} \t lastName: ${i.lastName} \t Email: ${i.email} \t Password: ${i.password} \t ")
             }
             adapterPerson.setData(users)
-        })
+
+        })*/
         getUserViewModel.isLoading.observe(this, Observer {
             binding.progressDialog.isVisible = it
         })

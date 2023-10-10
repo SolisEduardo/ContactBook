@@ -1,5 +1,6 @@
 package com.example.contactbook.data.network
 
+import com.example.contactbook.data.Repository
 import retrofit2.Response
 
 sealed class NetworkState<out T> {
