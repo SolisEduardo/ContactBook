@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.contactbook.core.ResponseState
 import com.example.contactbook.data.model.UserModelItem
 import com.example.contactbook.data.network.NetworkState
 import com.example.contactbook.domain.GetAllUserUserCase
@@ -30,19 +31,30 @@ class GetUserViewModel @Inject constructor(private var getAllUserUserCase: GetAl
     val errorMessage: LiveData<String>
         get() = _errorMessage
 
+    private val _stateList = MutableLiveData<ResponseState<List<User>>>()
+    val stateList: LiveData<ResponseState<List<User>>> = _stateList
+
     var job: Job? = null
 
     fun getAllUser() {
         _isLoading.postValue(true)
         viewModelScope.launch {
-            var result = getAllUserUserCase.invoke()
+
+            _stateList.value = ResponseState.Loading()
+            getAllUserUserCase.invoke().let {
+                if (it is ResponseState.Success)
+                    _getUser.value = it.data!!
+
+                _stateList.value = it
+            }
+         /*var result = getAllUserUserCase.invoke()
             if (result.isNotEmpty()){
                 _isLoading.postValue(false)
                 _getUser.postValue(result)
             }
             else{
                 _errorMessage.postValue(result.toString())
-            }
+            }*/
         }
 
             /*when (val response = getAllUserUserCase.invoke()) {

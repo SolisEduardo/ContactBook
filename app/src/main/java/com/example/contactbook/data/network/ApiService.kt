@@ -6,6 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
-    @GET("users")
+    @GET("user")
     suspend fun getAllUsers(@Query("size")size:Int,@Query("is_json")is_json:Boolean): Response<List<UserModelItem>>
 }

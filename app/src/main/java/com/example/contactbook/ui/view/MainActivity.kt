@@ -9,8 +9,10 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import com.example.contactbook.adapters.PersonAdapter
+import com.example.contactbook.core.ResponseState
 import com.example.contactbook.databinding.ActivityMainBinding
 import com.example.contactbook.ui.viewmodel.GetUserViewModel
+import com.example.contactbook.utils.UtilsMessage
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,6 +43,13 @@ class MainActivity : AppCompatActivity() {
             }
             adapterPerson.setData(it)
         })
+        getUserViewModel.stateList.observe(this) {
+            when (it) {
+                is ResponseState.Error -> errorMessage(it.message)
+                is ResponseState.Loading -> binding.progressDialog.isVisible = true
+                is ResponseState.Success -> binding.progressDialog.isVisible = false
+            }
+        }
        /* getUserViewModel.getUser.observe(this, Observer { users ->
             for (i in users!!.iterator()){
                // Glide.with(this).load(i.avatar).into(binding.imageView)
@@ -49,11 +58,16 @@ class MainActivity : AppCompatActivity() {
             adapterPerson.setData(users)
 
         })*/
-        getUserViewModel.isLoading.observe(this, Observer {
+        /*getUserViewModel.isLoading.observe(this, Observer {
             binding.progressDialog.isVisible = it
-        })
-        getUserViewModel.errorMessage.observe(this, Observer {
+        })*/
+        /*getUserViewModel.errorMessage.observe(this, Observer {
             Log.e(TAG,it.toString())
-        })
+        })*/
+    }
+
+    private fun errorMessage(msg: String) {
+        binding.progressDialog.isVisible = false
+        UtilsMessage.showAlertOk("ERROR", msg, this)
     }
 }
