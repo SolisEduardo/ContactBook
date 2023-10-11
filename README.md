@@ -12,6 +12,7 @@
 - Consume API REST JSON
 - Retrofit
 - Corrutinas
+- Room
 - Material Desing
 - Inyeccion de dependencias
 - Dagger Hilt
